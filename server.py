@@ -1,10 +1,8 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, request
 import cv2
 
+camera = cv2.VideoCapture(0)
 app = Flask(__name__)
-
-camera = cv2.VideoCapture(0)  # use 0 for web camera
-#  for cctv camera use rtsp://username:password@ip_address:554/user=username_password='password'_channel=channel_number_stream=0.sdp' instead of camera
 
 def gen_frames():
     while True:
@@ -29,6 +27,11 @@ def index():
     """Video streaming home page."""
     return render_template('index.html')
 
-
+@app.route('/handle_data', methods=['POST'])
+def handle_data():
+    path = request.form['vid_stream']
+    #path = request.form['FILE SHARING']
+    return path
+    
 if __name__ == '__main__':
     app.run(host='192.168.43.81')
