@@ -10,15 +10,50 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <title>LIVE STREAM</title>
+	
+	<script>
+		
+		function date_time(id){
+        date = new Date;
+        year = date.getFullYear();
+        month = date.getMonth();
+        months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'Jully', 'August', 'September', 'October', 'November', 'December');
+        d = date.getDate();
+        day = date.getDay();
+        days = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+        h = date.getHours();
+        if(h<10)
+        {
+                h = "0"+h;
+        }
+        m = date.getMinutes();
+        if(m<10)
+        {
+                m = "0"+m;
+        }
+        s = date.getSeconds();
+        if(s<10)
+        {
+                s = "0"+s;
+        }
+        result = ''+days[day]+' '+months[month]+' '+d+' '+year+' '+h+':'+m+':'+s;
+        document.getElementById(id).innerHTML = result;
+        setTimeout('date_time("'+id+'");','1000');
+        return true;
+		}
+		</script>
+	
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div class="col-lg-8  offset-lg-2">
-            <h3 class="mt-5">LIVE STREAM</h3>
-            <img src="{{ url_for('video_feed') }}" width="100%">
+            <h3 class="mt-5"><center>LIVE STREAM<center></h3>
+            <center><img style='border:3px solid #000000' src="{{ url_for('video_feed') }}" class="ImageBorder" width="100%"/></center>
         </div>
     </div>
+	<center><span id="date_time"></span></center>
+    <center><script type="text/javascript">window.onload = date_time('date_time');</script><center>
 </div>
 </body>
 </html>

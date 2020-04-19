@@ -7,6 +7,7 @@ app = Flask(__name__)
 def gen_frames():
     while True:
         success, frame = camera.read()
+        frame = cv2.flip(frame, 1)
         if not success:
             break
         else:
