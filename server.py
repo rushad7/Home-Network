@@ -15,23 +15,32 @@ def gen_frames():
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
+@app.route('/')
+def home():
+    """Home page."""
+    return render_template('front.html')
+
+@app.route('/stream_page')
+def stream_page():
+    return render_template('stream_page.html')
+
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
     return Response(gen_frames(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
-
-@app.route('/')
-def index():
-    """Video streaming home page."""
-    return render_template('index.html')
-
-@app.route('/handle_data', methods=['POST'])
-def handle_data():
+@app.route('/live_stream', methods=['POST'])
+def live_stream():
     path = request.form['vid_stream']
-    #path = request.form['FILE SHARING']
-    return path
-    
+    if path == "OPEN LIVE STREAM":
+        return stream_page()
+
+@app.route('/file_sharing', methods=['POST'])
+def file_sharing():
+    path = request.form['file_sharing']
+    if path == "OPEN DOCUMENT NETWORK":
+        return "You have entred the Knowledge centre !"
+
 if __name__ == '__main__':
     app.run(host='192.168.43.81')
