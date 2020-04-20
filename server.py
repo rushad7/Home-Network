@@ -17,6 +17,25 @@ def gen_frames():
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 @app.route('/')
+def login():
+    """Login page."""
+    return render_template('login.html')
+
+@app.route('/login_pswd',  methods=['POST'])
+def login_pswd():
+    """Login page via password."""
+    path = request.form['login_pswd']
+    if path == "LOGIN WITH USERNAME AND PASSWORD":
+        return "YOU SHALL NOT PASS !!!, WITHOUT A PASSWORD, IF YOU HAVE ONE, PLEASE DO CONTINUE "
+
+@app.route('/login_facial',  methods=['POST'])
+def login_facial():
+    """Login page via face id."""
+    path = request.form['login_facial']
+    if path == "LOGIN USING FACE ID":
+        return "MONU DEKHAR NI BC"
+    
+@app.route('/home')
 def home():
     """Home page."""
     return render_template('front.html')
