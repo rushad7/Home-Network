@@ -1,0 +1,60 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login Page</title>
+<style>
+input[type=text], select {
+  width: 40%;
+  padding: 10px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 30%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 35px;
+  margin: 20px 150px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+body {
+		font-family: 'Candara', serif;
+		font-size: 20px;
+		color: dodgerblue;
+		}
+</style>
+<body>
+
+<h1>Login Page</h1>
+
+<div>
+  <form action="{{ url_for('dashboard') }}"method="post">
+    <label for="username">Username : </label>
+    <input type="text" id="username" name="username" placeholder="Enter your username"></br>
+	
+    <label for="password">Password : </label>
+    <input type="text" id="password" name="password" placeholder="Enter your password"></br>
+  
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+</body>
+<head>
+</html>

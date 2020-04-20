@@ -1,6 +1,8 @@
 from flask import Flask, render_template, Response, request
 import cv2
 
+pass_dict = {"Rushad": "rushad", "shirin": "10011970", "Behzad": "behzad"}
+
 camera = cv2.VideoCapture(0)
 app = Flask(__name__)
 
@@ -26,19 +28,27 @@ def login_pswd():
     """Login page via password."""
     path = request.form['login_pswd']
     if path == "LOGIN WITH USERNAME AND PASSWORD":
-        return "YOU SHALL NOT PASS !!!, WITHOUT A PASSWORD, IF YOU HAVE ONE, PLEASE DO CONTINUE "
+        return render_template('login_pswd.html')
 
 @app.route('/login_facial',  methods=['POST'])
 def login_facial():
     """Login page via face id."""
     path = request.form['login_facial']
     if path == "LOGIN USING FACE ID":
-        return "MONU DEKHAR NI BC"
+        return render_template('front.html')
+
+@app.route('/dashboard',  methods=['POST'])
+def dashboard():
+    """Password Verification and access to dashboard"""
+    username = request.form['username']
+    password = request.form['password']
+    if str(pass_dict[str(username)]) == str(password):
+        return render_template('front.html')
     
-@app.route('/home')
-def home():
-    """Home page."""
-    return render_template('front.html')
+#@app.route('/home')
+#def home():
+#    """Home page."""
+#    return render_template('front.html')
 
 @app.route('/stream_page')
 def stream_page():
@@ -47,10 +57,9 @@ def stream_page():
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen_frames(),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/live_stream', methods=['POST'])
+@app.route('/live_stream',methods=['POST'])
 def live_stream():
     path = request.form['vid_stream']
     if path == "OPEN LIVE STREAM":
