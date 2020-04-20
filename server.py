@@ -19,9 +19,9 @@ def gen_frames():
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 @app.route('/')
-def login():
+def home():
     """Login page."""
-    return render_template('login.html')
+    return render_template('home.html')
 
 @app.route('/login_pswd',  methods=['POST'])
 def login_pswd():
@@ -35,7 +35,7 @@ def login_facial():
     """Login page via face id."""
     path = request.form['login_facial']
     if path == "LOGIN USING FACE ID":
-        return render_template('front.html')
+        return "Face ID under development"
 
 @app.route('/dashboard',  methods=['POST'])
 def dashboard():
@@ -50,10 +50,6 @@ def dashboard():
 #    """Home page."""
 #    return render_template('front.html')
 
-@app.route('/stream_page')
-def stream_page():
-    return render_template('stream_page.html')
-
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
@@ -63,13 +59,34 @@ def video_feed():
 def live_stream():
     path = request.form['vid_stream']
     if path == "OPEN LIVE STREAM":
-        return stream_page()
+        return render_template('stream_page.html')
 
 @app.route('/file_sharing', methods=['POST'])
 def file_sharing():
     path = request.form['file_sharing']
     if path == "OPEN DOCUMENT NETWORK":
         return "You have entred the Knowledge centre !"
+
+
+@app.errorhandler(400)
+def bad_request(e):
+    """Bad request."""
+    return render_template("400.html"), 400
+
+@app.errorhandler(404)
+def not_found(e):
+    """Page not found."""
+    return render_template("404.html"), 404
+
+@app.errorhandler(405)
+def server_error(e):
+    """Access denied"""
+    return render_template("405.html"), 405
+
+@app.errorhandler(500)
+def server_error(e):
+    """Internal server error."""
+    return render_template("500.html"), 500
 
 if __name__ == '__main__':
     app.run(host='192.168.43.81')
