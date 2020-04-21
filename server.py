@@ -41,6 +41,13 @@ def home():
     """Login page."""
     return render_template('home.html')
 
+@app.route('/register',  methods=['POST'])
+def register():
+    """Login page via password."""
+    path = request.form['reg']
+    if path == "REGISTER":
+        return render_template('registration.html')
+
 @app.route('/login_pswd',  methods=['POST'])
 def login_pswd():
     """Login page via password."""
@@ -67,6 +74,7 @@ def dashboard():
         login_status = True
         get_my_ip()
         return render_template('front.html')
+    return "</h1>Access Denied. Login to acces your Dashboeard</h1>"
 
 @app.route('/video_feed')
 def video_feed():
