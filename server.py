@@ -1,10 +1,16 @@
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response, request, jsonify
 import cv2
 
 pass_dict = {"Rushad": "rushad", "shirin": "10011970", "Behzad": "behzad"}
+#online_users = []
 
 camera = cv2.VideoCapture(0)
 app = Flask(__name__)
+
+#@app.route("/get_my_ip", methods=["GET"])
+#def get_my_ip():
+#    return jsonify({'ip': request.remote_addr}), 200
+
 
 def gen_frames():
     while True:
@@ -40,9 +46,11 @@ def login_facial():
 @app.route('/dashboard',  methods=['POST'])
 def dashboard():
     """Password Verification and access to dashboard"""
+    global login_status
     username = request.form['username']
     password = request.form['password']
     if str(pass_dict[str(username)]) == str(password):
+        login_status = True
         return render_template('front.html')
     
 #@app.route('/home')
@@ -53,9 +61,10 @@ def dashboard():
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    if login_status :
+        return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/live_stream',methods=['POST'])
+@app.route('/live_stream', methods=['POST'])
 def live_stream():
     path = request.form['vid_stream']
     if path == "OPEN LIVE STREAM":
