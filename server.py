@@ -1,16 +1,28 @@
 from flask import Flask, render_template, Response, request, jsonify
+import datetime
 import cv2
 
-pass_dict = {"Rushad": "rushad", "shirin": "10011970", "Behzad": "behzad"}
-#online_users = []
+pass_dict = {"Rushad": "16081999", "Shirin": "10011970", "Behzad": "26091964"}
+
 
 camera = cv2.VideoCapture(0)
 app = Flask(__name__)
 
-#@app.route("/get_my_ip", methods=["GET"])
-#def get_my_ip():
-#    return jsonify({'ip': request.remote_addr}), 200
-
+online_users = []
+def get_my_ip():
+    log = open("user_logs.log", "a")
+    online_users.append(str(datetime.datetime.now()))
+    online_users.append(str(username))
+    online_users.append(request.remote_addr)
+    if login_status:
+        log.write(str(online_users[0]))
+        log.write(" , ")
+        log.write(str(online_users[1]))
+        log.write(" , ")
+        log.write(str(online_users[2]))
+        log.write("\n")
+        log.close()
+        online_users.clear()
 
 def gen_frames():
     while True:
@@ -46,17 +58,15 @@ def login_facial():
 @app.route('/dashboard',  methods=['POST'])
 def dashboard():
     """Password Verification and access to dashboard"""
+    global username
+    global password
     global login_status
     username = request.form['username']
     password = request.form['password']
     if str(pass_dict[str(username)]) == str(password):
         login_status = True
+        get_my_ip()
         return render_template('front.html')
-    
-#@app.route('/home')
-#def home():
-#    """Home page."""
-#    return render_template('front.html')
 
 @app.route('/video_feed')
 def video_feed():
