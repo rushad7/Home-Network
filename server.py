@@ -2,7 +2,6 @@ from flask import Flask, render_template, Response, request, jsonify
 import pandas as pd
 import datetime
 import hashlib
-import pandas as pd
 import cv2
 
 camera = cv2.VideoCapture(0)
