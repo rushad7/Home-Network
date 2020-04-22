@@ -70,11 +70,15 @@ def dashboard():
     global login_status
     username = request.form['username']
     password = request.form['password']
-    if str(pass_dict[str(username)]) == str(password):
-        login_status = True
-        get_my_ip()
-        return render_template('front.html')
-    return "</h1>Access Denied. Login to acces your Dashboeard</h1>"
+    if str(username) in list(pass_dict.keys()):
+        if str(pass_dict[str(username)]) == str(password):
+            login_status = True
+            get_my_ip()
+            return render_template('front.html')
+        else:
+            return "<h1>Wrong Login credentials. Please try again</h1>"
+    else:
+        return "<h1>User does not exist. Please register first</h1>"
 
 @app.route('/video_feed')
 def video_feed():
