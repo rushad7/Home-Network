@@ -1,28 +1,19 @@
 from flask import Flask, render_template, Response, request, jsonify
+import pandas as pd
 import datetime
+import hashlib
+import pandas as pd
 import cv2
-
-pass_dict = {"Rushad": "16081999", "Shirin": "10011970", "Behzad": "26091964"}
-
 
 camera = cv2.VideoCapture(0)
 app = Flask(__name__)
 
-online_users = []
 def get_my_ip():
     log = open("user_logs.log", "a")
-    online_users.append(str(datetime.datetime.now()))
-    online_users.append(str(username))
-    online_users.append(request.remote_addr)
+    log_data = str(datetime.datetime.now()) + "," +  str(username) + "," + str(request.remote_addr) + "\n"
     if login_status:
-        log.write(str(online_users[0]))
-        log.write(" , ")
-        log.write(str(online_users[1]))
-        log.write(" , ")
-        log.write(str(online_users[2]))
-        log.write("\n")
+        log.write(log_data)
         log.close()
-        online_users.clear()
 
 def gen_frames():
     while True:
@@ -37,16 +28,43 @@ def gen_frames():
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 @app.route('/')
+@app.route('/home')
 def home():
     """Login page."""
     return render_template('home.html')
 
 @app.route('/register',  methods=['POST'])
 def register():
-    """Login page via password."""
+    """Registration page."""
     path = request.form['reg']
     if path == "REGISTER":
         return render_template('registration.html')
+
+@app.route('/add_user',  methods=['POST'])
+def add_user():
+    """Add user to data base"""
+    username = request.form['reg_username']
+    password = request.form['reg_password']
+    username_sha256 = hashlib.sha256(bytes(username, 'utf-8')).hexdigest()
+    password_sha256 = hashlib.sha256(bytes(password, 'utf-8')).hexdigest()
+    user_details = pd.read_csv('pass.enc')
+    if len(username) > 4 and len(password) > 7:
+        if username_sha256 not in list(user_details["username"]):
+            user_details = open("pass.enc", "a")
+            user_details.write(username_sha256 + "," + password_sha256 + "\n")
+            user_details.close()
+        else:
+            return "<h1>Username already taken. Please try again with a different username</h1>"
+        return render_template('reg_conf.html')
+    
+    else:
+        return "<h1>Please maintain the minimum charactar requirenment</h1>"
+
+@app.route('/reg_conf',  methods=['POST'])
+def reg_conf():
+    path = request.form['login']
+    if path == "LOGIN":
+        return render_template("home.html")
 
 @app.route('/login_pswd',  methods=['POST'])
 def login_pswd():
@@ -68,10 +86,17 @@ def dashboard():
     global username
     global password
     global login_status
+    
     username = request.form['username']
     password = request.form['password']
-    if str(username) in list(pass_dict.keys()):
-        if str(pass_dict[str(username)]) == str(password):
+    
+    username_sha256 = hashlib.sha256(bytes(username, 'utf-8')).hexdigest()
+    password_sha256 = hashlib.sha256(bytes(password, 'utf-8')).hexdigest()
+    user_details = pd.read_csv('pass.enc')
+    password_extract = pd.read_csv("pass.enc", index_col ="username")
+    
+    if username_sha256 in list(user_details["username"]):
+        if password_sha256 == password_extract["password"][username_sha256]:
             login_status = True
             get_my_ip()
             return render_template('front.html')

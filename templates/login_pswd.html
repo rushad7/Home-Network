@@ -46,10 +46,10 @@ body {
 <div>
   <form action="{{ url_for('dashboard') }}"method="post">
     <label for="username">Username : </label>
-    <input type="text" id="username" name="username" placeholder="Enter your username"></br>
+    <input type="text" autocomplete="off" id="username" name="username" placeholder="Enter your username"></br>
 	
     <label for="password">Password : </label>
-    <input type="text" id="password" name="password" placeholder="Enter your password"></br>
+    <input type="text" autocomplete="off" id="password" name="password" placeholder="Enter your password"></br>
   
     <input type="submit" name="submit" value="Submit">
   </form>
