@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response, request, redirect, url_for
 import pandas as pd
 import datetime
 import hashlib
@@ -117,22 +117,35 @@ def live_stream():
     if path == "OPEN LIVE STREAM":
         return render_template('stream_page.html')
 
-@app.route('/file_sharing', methods=['POST'])
-def file_sharing():
+@app.route('/file_upload', methods=['POST'])
+def file_upload():
+    path = request.form['file_upload']
+    if path == "UPLOAD DOCUMENT":
+        return render_template('upload_file.html')
+
+@app.route('/document_network', methods=['POST'])
+def document_network():
     path = request.form['file_sharing']
     if path == "OPEN DOCUMENT NETWORK":
-        return render_template('upload_file.html')
+        return "<h1>ALL DOCUMENTS WILL BE VISIBLE HERE. UNDER DEVELOPMENT</h1>"
 
 @app.route("/handleUpload", methods=['POST'])
 def handleUpload():
     if 'files' in request.files:
-        photo = request.files['files']
-        if photo.filename != '':            
-            photo.save(os.path.join('C:/Users/Rushad/Desktop/Home-Network/file_storage', photo.filename))
-            return "<h1>File Uploaded Successfully !</h1>"
+        file = request.files['files']
+        if file.filename != '':            
+            file.save(os.path.join('C:/Users/Rushad/Desktop/Home-Network/file_storage', file.filename))
+            return render_template('dash_return.html')
         else:
             return "<h1>Upload Failed<h1>"
-    return redirect(url_for('file_sharing'))
+    return render_template('upload_file.html')
+
+@app.route('/return', methods=['POST'])
+def return_home():
+    path = request.form['ret_dash']
+    if path == "return":
+        return render_template('home.html')
+
 
 @app.errorhandler(400)
 def bad_request(e):

@@ -18,7 +18,7 @@
 }
 
 .container { 
-  height: 200px;
+  height: 300px;
   position: relative;
   border: 3px solid green; 
 }
@@ -39,7 +39,10 @@
 <form action="{{ url_for('live_stream') }}" method="post">
 	<center><button type="submit" name="vid_stream" value="OPEN LIVE STREAM" class="btn info">OPEN LIVE STREAM</button></center>
 </form>
-<form action="{{ url_for('file_sharing') }}" method="post">
+<form action="{{ url_for('file_upload') }}" method="post">
+	<center><button type="submit" name="file_upload" value="UPLOAD DOCUMENT" class="btn info">UPLOAD DOCUMENTS</button></center>
+</form>
+<form action="{{ url_for('document_network') }}" method="post">
 	<center><button type="submit" name="file_sharing" value="OPEN DOCUMENT NETWORK" class="btn info">OPEN DOCUMENT NETWORK</button></center>
 </form>
 </div>

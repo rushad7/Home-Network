@@ -1,0 +1,42 @@
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>File Uploaded !</title>
+<style>
+.btn {
+  border: 2px solid black;
+  background-color: white;
+  color: black;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.info {
+  border-color: #2196F3;
+  color: dodgerblue;
+}
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+body {
+		font-family: 'Candara', serif;
+		font-size: 20px;
+		color: dodgerblue;
+		}
+		
+</style>
+<div>
+<font size=6 face="verdana" color="#8ebf42">You have uploaded the file successfully. </font>
+</div>
+<div class="center">
+<form action="{{ url_for('return_home') }}" method="post">
+	<center><button type="submit" name="ret_dash" value="return" class="btn info">RETURN HOME</button></center>
+</form>
+</div>
+</html>
