@@ -1,8 +1,9 @@
-from flask import Flask, render_template, Response, request, jsonify
+from flask import Flask, render_template, Response, request
 import pandas as pd
 import datetime
 import hashlib
 import cv2
+import os
 
 camera = cv2.VideoCapture(0)
 app = Flask(__name__)
@@ -120,8 +121,18 @@ def live_stream():
 def file_sharing():
     path = request.form['file_sharing']
     if path == "OPEN DOCUMENT NETWORK":
-        return "You have entred the Knowledge centre !"
+        return render_template('upload_file.html')
 
+@app.route("/handleUpload", methods=['POST'])
+def handleUpload():
+    if 'files' in request.files:
+        photo = request.files['files']
+        if photo.filename != '':            
+            photo.save(os.path.join('C:/Users/Rushad/Desktop/Home-Network/file_storage', photo.filename))
+            return "<h1>File Uploaded Successfully !</h1>"
+        else:
+            return "<h1>Upload Failed<h1>"
+    return redirect(url_for('file_sharing'))
 
 @app.errorhandler(400)
 def bad_request(e):

@@ -1,0 +1,49 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upload File</title>
+<style>
+.btn {
+  border: 2px solid black;
+  background-color: white;
+  color: black;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.info {
+  border-color: #2196F3;
+  color: dodgerblue;
+}
+.container { 
+  height: 200px;
+  position: relative;
+  border: 3px solid green; 
+}
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+input[type="file"] {
+    display: none;
+}
+</style>
+<div class="container">
+	<div class="center">
+	<form action="{{ url_for('handleUpload') }}" method="post" enctype="multipart/form-data">
+		<center><label class="btn info">
+		<input type="file" name="files" value="files"/>
+		<i></i> Select File
+		</label></center>
+		<br>
+		<center><button type="submit" value="Upload" class="btn info">Upload File</button></center>
+	</form>
+	</div>
+</div>
+ </head>
+ </html>
