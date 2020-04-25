@@ -43,7 +43,10 @@
 	<center><button type="submit" name="file_upload" value="UPLOAD DOCUMENT" class="btn info">UPLOAD DOCUMENTS</button></center>
 </form>
 <form action="{{ url_for('document_network') }}" method="post">
-	<center><button type="submit" name="file_sharing" value="OPEN DOCUMENT NETWORK" class="btn info">OPEN DOCUMENT NETWORK</button></center>
+	<center><button type="submit" name="file_sharing" value="OPEN DOCUMENT NETWORK" class="btn info">VIEW HOSTED DOCUMENTS</button></center>
+</form>
+<form action="{{ url_for('document_search') }}" method="post">
+	<center><button type="submit" name="file_search" value="SEARCH" class="btn info">SEARCH DOCUMENTS NETWORK</button></center>
 </form>
 </div>
 	</div>
