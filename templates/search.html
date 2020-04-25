@@ -1,0 +1,74 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Document Network Centre</title>
+<!--
+<p>Hello. Do you want to visit the website <a href="C:\Users\Rushad\Desktop\1.pdf" target="_blank" >Google</a>?<br />
+
+<script>
+        var name = {{ abs_path|safe }}
+		name = [];
+ </script>
+    
+	<h2> this is passed from python {{ name }} </h2>
+	<p>Hello. Do you want to visit the website <a href='{{ name }}' target="_blank" >SHOW ME THE MONEEYYY</a>?<br />
+	
+	<input type="file" id="file_input" webkitdirectory="" directory="">
+	<script>
+-->
+
+<style>
+input[type=text], select {
+  width: 40%;
+  padding: 10px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 30%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 35px;
+  margin: 20px 150px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+body {
+		font-family: 'Candara', serif;
+		font-size: 20px;
+		color: dodgerblue;
+		}
+</style>
+
+<body>
+
+<h1>Search Document Network Centre</h1>
+
+<div>
+  <form action="{{ url_for('search') }}"method="post">
+    <label for="doc">Document Name : </label>
+    <input type="text" autocomplete="off" id="docs" name="docs" placeholder="Search Documents"></br>
+  
+    <input type="submit" name="submit" value="Submit">
+  </form>
+</div>
+
+</body>
+
+</html>
+</head>
