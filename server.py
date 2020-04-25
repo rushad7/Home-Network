@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, request, redirect, url_for
+from flask import Flask, render_template, Response, request, redirect, url_for, send_file
 import pandas as pd
 import datetime
 import hashlib
@@ -127,7 +127,28 @@ def file_upload():
 def document_network():
     path = request.form['file_sharing']
     if path == "OPEN DOCUMENT NETWORK":
-        return "<h1>ALL DOCUMENTS WILL BE VISIBLE HERE. UNDER DEVELOPMENT</h1>"
+        docs = os.listdir(r"C:\Users\Rushad\Desktop\Home-Network\file_storage")
+        docs_str = "<h2>Files currently hosted :</h2><br>"
+        for i in range(len(docs)):
+            docs_str = docs_str + "<h3>" + str(docs[i]) + "</h3>" + "<br>"
+        return docs_str
+
+@app.route('/document_search', methods=['POST'])
+def document_search():
+    path = request.form['file_search']
+    if path == "SEARCH":
+        return render_template("search.html")
+
+@app.route('/search', methods=['POST'])
+def search():
+    path = request.form['docs']
+    file_dir = r"C:\Users\Rushad\Desktop\Home-Network\file_storage"
+    final_path = file_dir + "\\" + str(path)
+    if len(path) > 0:
+        if os.path.isfile(final_path):
+            print("Accessing : " + str(path))
+    return send_file(final_path)
+        
 
 @app.route("/handleUpload", methods=['POST'])
 def handleUpload():
